@@ -135,3 +135,9 @@ dmypy.json
 .idea/**
 .DS_Store
 *.DS_Store
+
+# images
+*.png
+*.jpeg
+*.jpg
+*.gif
