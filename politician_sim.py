@@ -1,4 +1,3 @@
-import numpy as np
 import matplotlib.pyplot as plt
 
 import random
@@ -8,7 +7,7 @@ from typing import List
 MAX_ISLAND = 7
 SEED = 101
 
-# real theta
+# real theta (the islands)
 real_theta: List[int] = [i for i in range(1, MAX_ISLAND + 1)]
 
 # real population plot
@@ -24,7 +23,6 @@ def run_mcmc(rounds: int, seed: int, islands: List[int]) -> List[int]:
     Runs the random-walk simulation `rounds` times
     and returns the resulting posterior distribution
     '''
-    np.random.seed(seed)
     random.seed(seed)
 
     current: int = random.choice(islands)   # start somewhere
@@ -55,10 +53,14 @@ def run_mcmc(rounds: int, seed: int, islands: List[int]) -> List[int]:
 
     return posterior
 
-post = run_mcmc(rounds=1000, seed=SEED, islands=real_theta)
 
-plt.bar([i for i in range(1, len(post) + 1)], post, color='brown')
-plt.xlabel(r'$\theta$')
-plt.ylabel('Frequency')
-plt.title('Posterior distribution of the population on the islands')
-plt.show()
+# for post
+for rounds in [100, 200, 500, 1000]:
+    post = run_mcmc(rounds=rounds, seed=SEED, islands=real_theta)
+
+    plt.bar([i for i in range(1, len(post) + 1)], post, color='brown')
+    plt.xlabel(r'$\theta$')
+    plt.ylabel('Frequency')
+    plt.title(f'Posterior distribution of the population on the islands\n{rounds} Rounds')
+    plt.savefig(f'posterior_{rounds}_rounds.png')
+    plt.show()
